@@ -17,18 +17,19 @@ class Connection {
      * Constantes do PDO:
      * https://www.php.net/manual/pt_BR/pdo.constants.php
      */
-    private $host = '';
-    private $user = '';
-    private $pass = '';
-    private $database = '';
+    private $host = 'localhost';
+    private $user = 'root';
+    private $pass = 'root';
+    private $port = 3306;
+    private $database = 'periodico';
 
-    private $dbConnection;
+    public $dbConnection;
     private $error;
     private $query;
 
     public function __construct()
     {
-        $dbConn = 'mysql:host=' . $this->host . ';dbName=' . $this->database . '';
+        $dbConn = 'mysql:host=' . $this->host . ';dbname=' . $this->database . ';port=' . $this->port;
 
         $pdoOptions = [
             PDO::ATTR_PERSISTENT => TRUE,
