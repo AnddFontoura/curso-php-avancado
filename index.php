@@ -7,11 +7,20 @@ use App\classes\FirstClass;
 use App\classes\SubCategoryClass;
 
 $articleClass = new ArticleClass();
-$articles = $articleClass->listArticles();
+$articles = $articleClass->getAllFromTable();
 
-$params = [
-    'name' => 'Volume 8, número 5',
+$insertSubCategory = [
+    'name' => 'sub correio',
+    'category_id' => 1,
+    'description' => 'exemplo de subcategory',
+];
+
+$selectSubCategory = [
+    'name' => 'sub correio',
 ];
 
 $subCategoryClass = new SubCategoryClass();
-var_dump($subCategoryClass->getAllFromTable($params));
+$subCategoryClass->insertOnTable($insertSubCategory);
+var_dump($subCategoryClass->getAllFromTable($selectSubCategory));
+
+

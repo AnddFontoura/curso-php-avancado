@@ -75,12 +75,60 @@ class Connection {
         return $sql;
     }
 
+    protected function sqlInsert(array $parameters) {
+        $columns = '';
+        $values = '';
+
+        $i = 1;
+        foreach ($parameters as $key => $value) {
+            $needColon = $i >= count($parameters) ? '': ', ';
+            $columns .= $key . $needColon ;
+            $values .= ":".$key . $needColon;
+            $i++;
+        }
+
+        $sql = "
+            INSERT INTO
+                {$this->table}
+            ($columns) 
+            VALUES
+            ($values)
+        ";
+
+        return $sql;
+    }
+
+    public function insertOnTable(array $parameters) {
+        $sql = $this->sqlInsert($parameters);
+
+        $query = $this->dbConnection->prepare($sql);
+        $this->bindValuesPDO($parameters, $query);
+
+        $result = $query->execute();
+
+        if ($result) {
+            echo "Deu certo a inclusão <hr>";
+        } else {
+            echo "Deu erro na inclusão <hr>";
+        }
+    }
+
     public function getAllFromTable(array $parameters = null)
     {
         $sql = $this->sqlListAll($parameters);
 
         $query = $this->dbConnection->prepare($sql);
-        if($parameters) {
+        $this->bindValuesPDO($parameters, $query);
+
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+
+    protected function bindValuesPDO(array $parameters = null, $query)
+    {
+        if ($parameters) {
             foreach ($parameters as $key => $value) {
                 if (is_string($value)) {
                     $pdoParam = PDO::PARAM_STR;
@@ -92,13 +140,10 @@ class Connection {
                     $pdoParam = PDO::PARAM_NULL;
                 }
 
-                $query->bindValue(':'.$key, $value, $pdoParam);
+                $query->bindValue(':' . $key, $value, $pdoParam);
             }
         }
-
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-        
-        return $result;
     }
+
+
 }
