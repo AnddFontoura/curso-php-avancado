@@ -78,7 +78,7 @@ class Connection {
     public function getAllFromTable(array $parameters = null)
     {
         $sql = $this->sqlListAll($parameters);
-        
+
         $query = $this->dbConnection->prepare($sql);
         if($parameters) {
             foreach ($parameters as $key => $value) {
@@ -93,7 +93,6 @@ class Connection {
                 }
 
                 $query->bindValue(':'.$key, $value, $pdoParam);
-                die($key . " " . $value . " ". $pdoParam);
             }
         }
 
