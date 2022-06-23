@@ -6,21 +6,32 @@ use App\classes\ArticleClass;
 use App\classes\FirstClass;
 use App\classes\SubCategoryClass;
 
-$articleClass = new ArticleClass();
-$articles = $articleClass->getAllFromTable();
-
-$insertSubCategory = [
-    'name' => 'sub correio',
+$subCategoryParams = [
+    'name' => 'sub correio new',
+    'description' => 'exemplo de subcategory update',
     'category_id' => 1,
-    'description' => 'exemplo de subcategory',
-];
-
-$selectSubCategory = [
-    'name' => 'sub correio',
 ];
 
 $subCategoryClass = new SubCategoryClass();
-$subCategoryClass->insertOnTable($insertSubCategory);
-var_dump($subCategoryClass->getAllFromTable($selectSubCategory));
+$subCategoryClass->insertOnTable($subCategoryParams);
+$subCategory = $subCategoryClass->getFromTable($subCategoryParams);
 
+echo "<pre>";
+//var_dump($subCategory);
+echo "</pre>";
+
+$newSubCategoryInfo = [
+    'name' => 'Andre atualizou',
+    'description' => 'Deu bom',
+];
+
+$filter = [
+    'id' => $subCategory['id'],
+];
+
+$subCategoryClass->updateOnTable($newSubCategoryInfo, $filter);
+
+echo "<pre>";
+var_dump($subCategoryClass->getAllFromTable($filter));
+echo "</pre>";
 
