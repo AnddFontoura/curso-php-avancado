@@ -22,7 +22,8 @@ class Connection {
     private $pass = 'root';
     private $port = 3306;
     private $database = 'periodico';
-    public $dbConnection;
+    protected $dbConnection;
+    protected $table;
     
     private $error;
     private $query;
@@ -50,5 +51,55 @@ class Connection {
         } catch (Exception $e) {
             $this->error = $e->getMessage();
         }
+    }
+
+    protected function sqlListAll(array $parameters = null)
+    {
+        $sql = "
+            SELECT
+                *
+            FROM
+                {$this->table}
+        ";
+
+        if ($parameters) {
+            $sql .= "WHERE ";
+
+            foreach($parameters as $key => $value) {
+                $sql .= " $key = :$key and ";
+            }
+
+            $sql .= " 1 = 1";
+        }
+
+        return $sql;
+    }
+
+    public function getAllFromTable(array $parameters = null)
+    {
+        $sql = $this->sqlListAll($parameters);
+        
+        $query = $this->dbConnection->prepare($sql);
+        if($parameters) {
+            foreach ($parameters as $key => $value) {
+                if (is_string($value)) {
+                    $pdoParam = PDO::PARAM_STR;
+                } elseif (is_numeric($value)) {
+                    $pdoParam = PDO::PARAM_INT;
+                } elseif (is_bool($value)) {
+                    $pdoParam = PDO::PARAM_BOOL;
+                } else {
+                    $pdoParam = PDO::PARAM_NULL;
+                }
+
+                $query->bindValue(':'.$key, $value, $pdoParam);
+                die($key . " " . $value . " ". $pdoParam);
+            }
+        }
+
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        
+        return $result;
     }
 }
