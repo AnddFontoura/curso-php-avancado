@@ -1,0 +1,20 @@
+{
+    "name": "anddf/curso-php-avancado",
+    "description": "'projeto de ensino de php avancado'",
+    "type": "project",
+    "require": {
+        "nesbot/carbon": "^2.58"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "André Fontoura",
+            "email": "andd.fontoura@hotmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app"
+        }
+    }
+}
