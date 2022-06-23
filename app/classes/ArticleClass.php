@@ -8,7 +8,7 @@ use PDO;
 class ArticleClass extends Connection {
 
     public function listArticles() {
-        $query = $this->dbConnection->query("select * from periodico.articles");
+        $query = $this->dbConnection->query("select * from articles");
         $query->execute();
         $result = $query->fetch(PDO::FETCH_ASSOC);
         

@@ -22,8 +22,8 @@ class Connection {
     private $pass = 'root';
     private $port = 3306;
     private $database = 'periodico';
-
     public $dbConnection;
+    
     private $error;
     private $query;
 
