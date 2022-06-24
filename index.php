@@ -1,37 +1,24 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
-
-use App\classes\ArticleClass;
-use App\classes\FirstClass;
 use App\classes\SubCategoryClass;
 
-$subCategoryParams = [
-    'name' => 'sub correio new',
-    'description' => 'exemplo de subcategory update',
-    'category_id' => 1,
-];
+require_once __DIR__ . '/vendor/autoload.php';
 
-$subCategoryClass = new SubCategoryClass();
-$subCategoryClass->insertOnTable($subCategoryParams);
-$subCategory = $subCategoryClass->getFromTable($subCategoryParams);
+$urlExplode = explode('/', $_SERVER['REQUEST_URI']);
 
-echo "<pre>";
-//var_dump($subCategory);
-echo "</pre>";
+$function = $urlExplode[count($urlExplode) - 1];
+$controller = $urlExplode[count($urlExplode) - 2];
 
-$newSubCategoryInfo = [
-    'name' => 'Andre atualizou',
-    'description' => 'Deu bom',
-];
+$pathClass = "App\\classes\\" . $controller . "Class";
 
-$filter = [
-    'id' => $subCategory['id'],
-];
+if (class_exists($pathClass)) {
+    $myClass = new $pathClass();
+} else {
+    die("Classe não encontrada");
+}
 
-$subCategoryClass->updateOnTable($newSubCategoryInfo, $filter);
-
-echo "<pre>";
-var_dump($subCategoryClass->getAllFromTable($filter));
-echo "</pre>";
-
+if (method_exists($myClass, $function)) {
+    $result = $myClass->$function();
+} else {
+    die("Função não existe");
+}
