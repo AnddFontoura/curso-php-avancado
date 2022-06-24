@@ -1,26 +1,24 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
-
-use App\classes\ArticleClass;
-use App\classes\FirstClass;
 use App\classes\SubCategoryClass;
 
-$articleClass = new ArticleClass();
-$articles = $articleClass->getAllFromTable();
+require_once __DIR__ . '/vendor/autoload.php';
 
-$insertSubCategory = [
-    'name' => 'sub correio',
-    'category_id' => 1,
-    'description' => 'exemplo de subcategory',
-];
+$urlExplode = explode('/', $_SERVER['REQUEST_URI']);
 
-$selectSubCategory = [
-    'name' => 'sub correio',
-];
+$function = $urlExplode[count($urlExplode) - 1];
+$controller = $urlExplode[count($urlExplode) - 2];
 
-$subCategoryClass = new SubCategoryClass();
-$subCategoryClass->insertOnTable($insertSubCategory);
-var_dump($subCategoryClass->getAllFromTable($selectSubCategory));
+$pathClass = "App\\classes\\" . $controller . "Class";
 
+if (class_exists($pathClass)) {
+    $myClass = new $pathClass();
+} else {
+    die("Classe não encontrada");
+}
 
+if (method_exists($myClass, $function)) {
+    $result = $myClass->$function();
+} else {
+    die("Função não existe");
+}

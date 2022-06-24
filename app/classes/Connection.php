@@ -75,6 +75,37 @@ class Connection {
         return $sql;
     }
 
+    protected function sqlUpdate(array $parameters, array $filter) {
+        $update = '';
+        $filtro = '';
+
+        $i = 1;
+        foreach ($parameters as $key => $value) {
+            $needColon = $i >= count($parameters) ? '': ', ';
+            $update .= $key." = :".$key . $needColon;
+            $i++;
+        }
+
+        if ($filter) {
+            foreach ($filter as $key => $value) {
+                $needAnd = $i >= count($filter) ? '': ' and ';
+                $filtro .= $key." = :".$key . $needAnd;
+                $i++;
+            }
+        }
+
+        $sql = "
+            UPDATE
+                {$this->table}
+            SET
+                $update
+            WHERE
+                $filtro
+        ";
+
+        return $sql;
+    }
+    
     protected function sqlInsert(array $parameters) {
         $columns = '';
         $values = '';
@@ -124,6 +155,35 @@ class Connection {
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         
         return $result;
+    }
+    
+    public function getFromTable(array $parameters = null)
+    {
+        $sql = $this->sqlListAll($parameters);
+
+        $query = $this->dbConnection->prepare($sql);
+        $this->bindValuesPDO($parameters, $query);
+
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+
+    public function updateOnTable(array $parameters, array $filter) {
+        $sql = $this->sqlUpdate($parameters, $filter);
+
+        $query = $this->dbConnection->prepare($sql);
+        $this->bindValuesPDO($parameters, $query);
+        $this->bindValuesPDO($filter, $query);
+
+        $result = $query->execute();
+
+        if ($result) {
+            echo "Deu certo a alteração <hr>";
+        } else {
+            echo "Deu erro na alteração <hr>";
+        }
     }
 
     protected function bindValuesPDO(array $parameters = null, $query)
