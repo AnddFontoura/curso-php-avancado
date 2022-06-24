@@ -3,17 +3,19 @@
 namespace App\classes;
 
 use App\classes\Connection;
+use App\classes\model\ArticleModel;
 use PDO;
 
 class ArticleClass extends Connection {
 
     protected $table = "articles";
-    
-    public function listArticles() {
-        $query = $this->dbConnection->query("select * from articles");
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-        
-        return $result;
+    protected $viewDirectory = 'article';
+    protected $model;
+
+    function __construct()
+    {
+        parent::__construct();
+
+        $this->model = new ArticleModel();
     }
 }
