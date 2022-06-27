@@ -2,15 +2,22 @@
 
 namespace App\classes;
 
-use App\classes\Connection;
 use App\classes\model\ArticleModel;
-use PDO;
 
-class ArticleClass extends Connection {
+class ArticleClass extends ControllerClass {
 
     protected $table = "articles";
     protected $viewDirectory = 'article';
     protected $model;
+    protected $uploadFolder = 'upload/article';
+    protected $uploadParameter = 'path';
+    protected $uploadColumnName = 'path';
+    protected $allowedFileType = [
+        'application/pdf'
+    ];
+    protected $allowedFileExtension = [
+        'pdf'
+    ];
 
     function __construct()
     {
@@ -18,4 +25,13 @@ class ArticleClass extends Connection {
 
         $this->model = new ArticleModel();
     }
+
+    public function create()
+    {
+        $subCategoriesClass = new SubCategoryClass();
+        $subCategories = $subCategoriesClass->getAllFromTable();
+
+        parent::create();
+    }
+
 }

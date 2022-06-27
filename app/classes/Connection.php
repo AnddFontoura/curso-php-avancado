@@ -146,10 +146,15 @@ class Connection {
 
     public function getAllFromTable(array $parameters = null)
     {
+        //var_dump($parameters);
+
         $sql = $this->sqlListAll($parameters);
 
         $query = $this->dbConnection->prepare($sql);
         $this->bindValuesPDO($parameters, $query);
+
+        //var_dump($query);
+        //die();
 
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);

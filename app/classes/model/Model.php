@@ -19,4 +19,16 @@ class Model {
         return $params;
     }
 
+    public function setPostParams()
+    {
+        $params = [];
+        
+        foreach($this->fillable as $tableColumn) {
+            if(isset($_POST[$tableColumn]) && $_POST[$tableColumn] != null){
+                $params[$tableColumn] = $_POST[$tableColumn];
+            }
+        }
+
+        return $params;
+    }
 }
