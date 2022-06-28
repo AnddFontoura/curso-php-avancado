@@ -14,6 +14,11 @@ class ControllerClass extends Connection {
     protected $allowedFileType;
     protected $allowedFileExtension;
 
+    /**
+     * @var array
+     */
+    protected $parametersForDelete;
+
     public function list() {
         $params = $this->model->setParams();
 
@@ -33,6 +38,37 @@ class ControllerClass extends Connection {
     public function create()
     {
         require_once("view/{$this->viewDirectory}/form.php");
+    }
+
+    public function delete()
+    {
+        if (!isset($_POST['id'])) {
+            $return = [
+                'message' => 'Informação enviada não está de acordo com o esperado. Requisição POST'
+            ];
+
+            header('Content-Type: application/json');
+            header ('HTTP/1.1 405 Method Not Allowed');
+            echo json_encode($return);
+            die();
+        }
+
+        $dataForDelete = $_POST['id'] ?? 0;
+        $params = [
+            'id' => $dataForDelete
+        ];
+
+        $result = $this->getFromTable($params);
+
+        if (!is_null($result)) {
+            $resultDelete = $this->deleteOnTable($params);
+            $resultDelete ? $return = ['message' => 'Registro Deletado'] : $return = ['message' => 'Nenhum registro deletado'];
+            
+            echo json_encode($return);
+            die();
+        }
+
+        echo json_encode(['message' => 'Dado já foi deletado anteriormente']);
     }
 
     protected function uploadArquivo(array $uploadedFile) {

@@ -7,7 +7,7 @@
     <body class='container'>
         <div class='row'>
             <div class='col-12'>
-                <form action="../Category/list" method="GET">
+                <form action="../Article/list" method="GET">
                     <div class="card">
                         <div class="card-header">
                             <h1> Filtros </h1>
@@ -52,14 +52,13 @@
                                 else {
                                     echo '<table class="table table-striped">';
 
-                                    foreach($listResults as $category) {
+                                    foreach($listResults as $article) {
                                         echo "
                                             <tr>
-                                                <td> {$category['id']} </td>
-                                                <td> {$category['name']}</td>
-                                                <td> {$category['description']}</td>
-                                                <td> <img src='../upload/category/{$category['image']}'></img> </td>
-                                                <td> <p class='btn btn-danger btnDelete' data-id='{$category['id']}'> Deletar </p> </td>
+                                                <td> {$article['id']} </td>
+                                                <td> {$article['name']}</td>
+                                                <td> <img src='../upload/category/{$article['image']}'></img> </td>
+                                                <td> <p class='btn btn-danger btnDelete' data-id='{$article['id']}'> Deletar </p> </td>
                                             </tr>
                                         ";
                                     }
@@ -81,13 +80,13 @@
     <script>
 
         $('.btnDelete').on('click', function() {
-            var idCategory = $(this).data('id');
+            var idArticle = $(this).data('id');
         
             var request = $.ajax({
-                url: "../Category/delete",
+                url: "../Article/delete",
                 method: "POST",
                 data: {
-                    id: idCategory
+                    id: idArticle
                 },
                 dataType: "json"
             });
