@@ -2,6 +2,8 @@
 
 namespace App\classes;
 
+use Exception;
+
 class ControllerClass extends Connection {
     protected $table;
     protected $viewDirectory;
@@ -56,7 +58,7 @@ class ControllerClass extends Connection {
 
                 move_uploaded_file($uploadedFile['tmp_name'], $this->uploadFolder . '/' . $fileName);
             }
-        } 
+        }
         
         return $fileName;
     }

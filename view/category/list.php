@@ -58,6 +58,7 @@
                                                 <td> {$category['id']} </td>
                                                 <td> {$category['name']}</td>
                                                 <td> {$category['description']}</td>
+                                                <td> <p class='btn btn-danger btnDelete' data-id='{$category['id']}'> Deletar </p> </td>
                                             </tr>
                                         ";
                                     }
@@ -73,5 +74,33 @@
 
 
     <script src="../public/js/jquery.min.js"></script>
+    <script src="../public/js/jquery-ui.min.js"></script>
     <script src="../public/js/bootstrap.min.js"></script>
+
+    <script>
+
+        $('.btnDelete').on('click', function() {
+            var idCategory = $(this).data('id');
+        
+            var request = $.ajax({
+                url: "../Category/delete",
+                method: "GET",
+                data: {
+                    id: idCategory
+                },
+                dataType: "json"
+            });
+
+            request.done(function (data) {
+                console.log(data);
+                alert(data.message);
+            });
+            
+            request.fail(function (data) {
+                var response = $.parseJSON(data.responseText);
+                alert(response.message);
+            });
+        });
+
+    </script>
 </body>

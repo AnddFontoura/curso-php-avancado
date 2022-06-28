@@ -10,6 +10,7 @@ class CategoryModel extends Model {
         'id',
         'name',
         'description',
+        'image',
         'created_at',
         'updated_at',
         'deleted_at'
