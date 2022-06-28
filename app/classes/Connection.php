@@ -23,6 +23,11 @@ class Connection {
     private $port = 3306;
     private $database = 'periodico';
     protected $dbConnection;
+
+    /**
+     * @var string
+     * Contém o nome da tabela a ser invocado
+     */
     protected $table;
     
     private $error;
@@ -129,6 +134,29 @@ class Connection {
         return $sql;
     }
 
+    protected function sqlDelete(array $parameters = null) {
+        $filter = '';
+        $i = 1;
+
+        if ($parameters) {
+            foreach ($parameters as $key => $value) {
+                $needAnd = $i >= count($parameters) ? '': ' and ';
+                $filter .= $key." = :".$key . $needAnd;
+                $i++;
+            }
+        }
+
+        $sql = "
+            DELETE FROM
+                {$this->table}
+            WHERE
+                {$filter}
+        ";
+
+        return $sql;
+    }
+
+
     public function insertOnTable(array $parameters) {
         $sql = $this->sqlInsert($parameters);
 
@@ -189,6 +217,16 @@ class Connection {
         } else {
             echo "Deu erro na alteração <hr>";
         }
+    }
+
+    public function deleteOnTable(array $parameters) {
+        $sql = $this->sqlDelete($parameters);
+        
+        $query = $this->dbConnection->prepare($sql);
+        $this->bindValuesPDO($parameters, $query);
+        $result = $query->execute();
+            
+        return $result;
     }
 
     protected function bindValuesPDO(array $parameters = null, $query)
