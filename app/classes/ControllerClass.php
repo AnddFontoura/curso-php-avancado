@@ -32,7 +32,7 @@ class ControllerClass extends Connection {
         $params = $this->model->setPostParams();
         $params[$this->uploadColumnName] = $this->uploadArquivo($_FILES[$this->uploadParameter]);
         $this->insertOnTable($params);
-        $this->list();
+        header("Location: ../{$this->viewDirectory}/list");
     }
     
     public function create()
