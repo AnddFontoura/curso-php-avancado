@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-    <head>
-        <title> Aula PHP Avançado </title> 
-        <link rel="stylesheet" href="../public/css/bootstrap.min.css">
-    </head>
 
-    <body class='container'>
         <div class='row'>
             <div class='col-12'>
                 <form action="../Category/list" method="GET">
@@ -58,7 +52,6 @@
                                                 <td> {$category['id']} </td>
                                                 <td> {$category['name']}</td>
                                                 <td> {$category['description']}</td>
-                                                <td> <img src='../upload/category/{$category['image']}'></img> </td>
                                                 <td> <p class='btn btn-danger btnDelete' data-id='{$category['id']}'> Deletar </p> </td>
                                             </tr>
                                         ";
@@ -72,12 +65,6 @@
                 </form>
             </div>
         </div>
-
-
-    <script src="../public/js/jquery.min.js"></script>
-    <script src="../public/js/jquery-ui.min.js"></script>
-    <script src="../public/js/bootstrap.min.js"></script>
-
     <script>
 
         $('.btnDelete').on('click', function() {
@@ -95,6 +82,7 @@
             request.done(function (data) {
                 console.log(data);
                 alert(data.message);
+                location.reload();
             });
             
             request.fail(function (data) {
@@ -104,4 +92,3 @@
         });
 
     </script>
-</body>
