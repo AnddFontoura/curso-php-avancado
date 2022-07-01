@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '861d1dfb750596bdda3889e19259975f5b067595',
+    'reference' => 'ffe45068a9490e5656e11940e8ce6b676dfe0dae',
     'name' => 'anddf/curso-php-avancado',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '861d1dfb750596bdda3889e19259975f5b067595',
+      'reference' => 'ffe45068a9490e5656e11940e8ce6b676dfe0dae',
     ),
     'doctrine/instantiator' => 
     array (

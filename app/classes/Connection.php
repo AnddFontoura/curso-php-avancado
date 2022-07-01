@@ -17,11 +17,11 @@ class Connection {
      * Constantes do PDO:
      * https://www.php.net/manual/pt_BR/pdo.constants.php
      */
-    private $host = 'localhost';
-    private $user = 'root';
-    private $pass = 'root';
-    private $port = 3306;
-    private $database = 'periodico';
+    private $host;
+    private $user;
+    private $pass;
+    private $port;
+    private $database;
     protected $dbConnection;
 
     /**
@@ -35,6 +35,12 @@ class Connection {
 
     public function __construct()
     {
+        $this->host = isset($GLOBALS['DB_HOST']) ? $GLOBALS['DB_HOST'] : 'localhost';
+        $this->user = isset($GLOBALS['DB_USER']) ? $GLOBALS['DB_USER'] : 'root';
+        $this->pass = isset($GLOBALS['DB_PASSWD']) ? $GLOBALS['DB_PASSWD'] : 'root';
+        $this->port = isset($GLOBALS['DB_HOST']) ? $GLOBALS['DB_HOST'] : 3306;
+        $this->database = isset($GLOBALS['DB_DBNAME']) ? $GLOBALS['DB_DBNAME'] : 'periodico';
+
         $dbConn = 'mysql:host=' . $this->host . ';dbname=' . $this->database . ';port=' . $this->port;
 
         $pdoOptions = [

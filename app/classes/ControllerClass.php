@@ -24,13 +24,17 @@ class ControllerClass extends Connection {
 
         $listResults = $this->getAllFromTable($params);
         
-        include("view/{$this->viewDirectory}/list.php");
+        require_once("view/{$this->viewDirectory}/list.php");
     }
 
     public function save()
     {
         $params = $this->model->setPostParams();
-        $params[$this->uploadColumnName] = $this->uploadArquivo($_FILES[$this->uploadParameter]);
+
+        if(isset($_FILES[$this->uploadParameter]) && $_FILES[$this->uploadParameter] !== null) {
+            $params[$this->uploadColumnName] = $this->uploadArquivo($_FILES[$this->uploadParameter]);
+        }
+        
         $this->insertOnTable($params);
         header("Location: ../{$this->viewDirectory}/list");
     }
