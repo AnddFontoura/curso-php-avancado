@@ -3,6 +3,7 @@
 <head>
     <title> Aula PHP Avançado </title>
     <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
 <body class='container'>
@@ -36,6 +37,18 @@
                     
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="../Article/create">Article Create</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../Page/extractDataExcel">Page Excel</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../Page/extractDataCsv">Page CSV</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../Page/reportJs">Page Report</a>
                     </li>
                 </ul>
             </div>

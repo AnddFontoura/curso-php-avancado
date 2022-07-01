@@ -8,9 +8,12 @@ $controller = $urlExplode[count($urlExplode) - 2];
 $function = preg_replace('/\?[A-z=&0-9\+-]{1,1000}/', '', $function);
 $controller = strtolower($controller);
 $controller = ucwords($controller);
+$functionsWithoutIncludes = [
+    'extractDataExcel',
+    'extractDataCsv'
+];
 
 $pathClass = "App\\classes\\" . $controller . "Class";
-
 
 if (class_exists($pathClass)) {
     $myClass = new $pathClass();
@@ -19,9 +22,13 @@ if (class_exists($pathClass)) {
 }
 
 if (method_exists($myClass, $function)) {
-    require_once('./view/includes/header.php');
+    if (!in_array($function, $functionsWithoutIncludes)) {
+        require_once('./view/includes/header.php');
+    }
     $result = $myClass->$function();
-    require_once('./view/includes/footer.php');
+    if (!in_array($function, $functionsWithoutIncludes)) {
+        require_once('./view/includes/footer.php');
+    }
 } else {
     die("Função não existe");
 }
