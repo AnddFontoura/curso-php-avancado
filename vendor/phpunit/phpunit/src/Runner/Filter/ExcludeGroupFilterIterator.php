@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /*
  * This file is part of PHPUnit.
  *
@@ -11,13 +11,8 @@ namespace PHPUnit\Runner\Filter;
 
 class ExcludeGroupFilterIterator extends GroupFilterIterator
 {
-    /**
-     * @param string $hash
-     *
-     * @return bool
-     */
-    protected function doAccept($hash)
+    protected function doAccept(string $hash): bool
     {
-        return !\in_array($hash, $this->groupTests);
+        return !\in_array($hash, $this->groupTests, true);
     }
 }
